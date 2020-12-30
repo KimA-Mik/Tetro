@@ -4,7 +4,7 @@ bool MyApp::IsRunning = true;
 
 MyApp::MyApp()
 {
-	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) {
 		printf("SDL could not initialize! SDL Error: %s\n", SDL_GetError());
 		IsRunning = false;
 	}
@@ -64,9 +64,10 @@ void MyApp::Run()
 		while (SDL_PollEvent(&e) != 0){
 		}
 
-		//Menu
-
-		//Game
+		//Меню, в нем что-от бует
+		//Возвращаемое значение будет определять дальнейший ход программ
+		
+		//Отдельный класс с игрой, все в нем, до гейм овера
 
 
 	}
