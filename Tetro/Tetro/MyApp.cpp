@@ -26,7 +26,7 @@ MyApp::MyApp()
 			}
 			else {
 
-				//Загрузка PNG
+				//Р—Р°РіСЂСѓР·РєР° PNG
 				int imgFlags = IMG_INIT_PNG;
 				if (!(IMG_Init(imgFlags) & imgFlags)) {
 					printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());

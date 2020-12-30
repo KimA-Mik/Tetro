@@ -4,6 +4,7 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 
+//мое приложение
 class MyApp
 {
 public:

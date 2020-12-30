@@ -1,5 +1,6 @@
 #include "MyApp.h"
 
+//мейн
 int main()
 {
 	MyApp App();
