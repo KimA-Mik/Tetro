@@ -1,5 +1,7 @@
 #include "MyApp.h"
 
+bool MyApp::IsRunning = true;
+
 MyApp::MyApp()
 {
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
@@ -37,6 +39,8 @@ MyApp::MyApp()
 					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 					IsRunning = false;
 				}
+
+				SDL_SetEventFilter(MyEventFilter, nullptr);
 			}
 		}
 	}
@@ -57,10 +61,21 @@ void MyApp::Run()
 {
 
 	while(IsRunning) {
+		while (SDL_PollEvent(&e) != 0){
+		}
+
 		//Menu
 
 		//Game
 
 
 	}
+}
+
+int MyApp::MyEventFilter(void* userdata, SDL_Event* event)
+{
+	
+	if (event->type == SDL_QUIT)
+		IsRunning = false;
+	return 0;
 }

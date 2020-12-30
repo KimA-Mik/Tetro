@@ -12,12 +12,18 @@ public:
 	~MyApp();
 	void Run();
 
+	static int MyEventFilter(void* userdata, SDL_Event* event);
+
+
+
 private:
-	bool IsRunning = true;
+	static bool IsRunning;
 
 	SDL_Window* mWindow = nullptr;
 
 	SDL_Renderer* mRenderer = nullptr;
+
+	SDL_Event e;
 
 };
 
