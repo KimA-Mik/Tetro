@@ -60,10 +60,10 @@ MyApp::~MyApp()
 void MyApp::Run()
 {
 	Tetromino A;
-	A.R2();
-	A.R2();
-	A.R2();
-	A.R2();
+	A.Rotate();
+	A.Rotate();
+	A.Rotate();
+	A.Rotate();
 	while(IsRunning) {
 		while (SDL_PollEvent(&e) != 0){
 		}

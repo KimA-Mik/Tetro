@@ -8,7 +8,6 @@ public:
 	Tetromino();
 	~Tetromino();
 	void Rotate();
-	void R2();
 	bool DoesItFit();
 
 private:

@@ -61,7 +61,7 @@ Tetromino::~Tetromino()
 #include <iostream>
 void Tetromino::Rotate()
 {
-	for (int i = 0; i < 5; i++) {
+	for (int i = 0; i < 4; i++) {
 		for (int j = 0; j < 4; j++)
 			std::cout << aTetro.at(i).at(j);
 		std::cout << std::endl;
@@ -72,11 +72,11 @@ void Tetromino::Rotate()
 	int b;
 	for (int i = 0; i < n / 2; i++)
 		for (int j = i; j < n - 1 - i; j++) {
-			b = a[i][j];
-			a[i][j] = a[n - j - 1][i];
-			a[n - j - 1][i] = a[n - i - 1][n - j - 1];
-			a[n - i - 1][n - j - 1] = a[j][n - i - 1];
-			a[j][n - i - 1] = b;
+			b = aTetro[i][j];
+			aTetro[i][j] = aTetro[n - j - 1][i];
+			aTetro[n - j - 1][i] = aTetro[n - i - 1][n - j - 1];
+			aTetro[n - i - 1][n - j - 1] = aTetro[j][n - i - 1];
+			aTetro[j][n - i - 1] = b;
 	}
 
 	for (int i = 0; i < 4; i++) {
