@@ -16,3 +16,5 @@ Tetro/.vs/Tetro/v16/.suo
 *.recipe
 *.obj
 *.user
+*.iobj
+*.ipdb
