@@ -64,6 +64,8 @@ void MyApp::Run()
 	A.Rotate();
 	A.Rotate();
 	A.Rotate();
+	Menu Men(mRenderer, &IsRunning);
+	Men.Run();
 	while(IsRunning) {
 		while (SDL_PollEvent(&e) != 0){
 		}

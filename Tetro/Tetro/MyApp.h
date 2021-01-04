@@ -4,6 +4,7 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 #include "Tetromino.h"
+#include "Menu.h"
 
 //мое приложение
 class MyApp
