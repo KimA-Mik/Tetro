@@ -3,7 +3,6 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
-#include "Tetromino.h"
 #include "Menu.h"
 
 //мое приложение
@@ -14,12 +13,9 @@ public:
 	~MyApp();
 	void Run();
 
-	static int MyEventFilter(void* userdata, SDL_Event* event);
-
-
 
 private:
-	static bool IsRunning;
+	bool IsRunning = true;
 
 	SDL_Window* mWindow = nullptr;
 

@@ -1,6 +1,5 @@
 #include "MyApp.h"
 
-bool MyApp::IsRunning = true;
 
 MyApp::MyApp()
 {
@@ -39,8 +38,6 @@ MyApp::MyApp()
 					printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
 					IsRunning = false;
 				}
-
-				SDL_SetEventFilter(MyEventFilter, nullptr);
 			}
 		}
 	}
@@ -59,18 +56,15 @@ MyApp::~MyApp()
 
 void MyApp::Run()
 {
-	Tetromino A;
-	A.Rotate();
-	A.Rotate();
-	A.Rotate();
-	A.Rotate();
-	Menu Men(mRenderer, &IsRunning);
-	Men.Run();
+	Menu* MyMenu = nullptr;
 	while(IsRunning) {
 		while (SDL_PollEvent(&e) != 0){
 		}
 
 		//Меню, в нем что-от бует
+		MyMenu = new Menu(mRenderer, &IsRunning);
+		int PlayerSelect = MyMenu->Run();
+		delete MyMenu;
 		//Возвращаемое значение будет определять дальнейший ход программ
 		
 		//Отдельный класс с игрой, все в нем, до гейм овера
@@ -79,10 +73,3 @@ void MyApp::Run()
 	}
 }
 
-int MyApp::MyEventFilter(void* userdata, SDL_Event* event)
-{
-	
-	if (event->type == SDL_QUIT)
-		IsRunning = false;
-	return 0;
-}
