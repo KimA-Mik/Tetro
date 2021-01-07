@@ -4,6 +4,7 @@
 #include <SDL_ttf.h>
 #include <SDL_image.h>
 #include "Menu.h"
+#include "Game.h"
 
 //мое приложение
 class MyApp

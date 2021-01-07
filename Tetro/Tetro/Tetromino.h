@@ -15,19 +15,29 @@ public:
 	//void StartMoving(FieldArray StartArray);
 
 	void Rotate();
-	bool DoesItFit();
+
+	void StartMoving(FieldArray& Field);
 
 	//Передвигают массив, возвращая поле на отрисовку
-	//FieldArray MoveLeft();
-	//FieldArray MoveRight();
-	//FieldArray MoveDown(bool* Succes);
+	void MoveLeft();
+	void MoveRight();
+	bool MoveDown();
 
-	//FieldArray GetCurrField();
+	TetroArray GetFigure();
 
+	bool DoesItFit(int x, int y);
+	bool DoesItFitRotated(TetroArray& Rotated);
+
+	FieldArray GetNewField();
+
+	void SetXPos(int x) { xPos = x; }
+	void SetYPos(int y) { yPos = y; }
 
 private:
 	FieldArray CurrField; //массив на начало движения
 	TetroArray aTetro ; // 4 на 4 тетромино
 	int iType; // тип тетромино 1 - 7
+	int xPos = 5;
+	int yPos = 0;
 };
 

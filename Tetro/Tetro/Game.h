@@ -5,37 +5,58 @@
 #include <SDL_image.h>
 #include <array>
 #include "LTexture.h"
+#include "Tetromino.h"
+#define FieldArray std::array<std::array<int,20>,10>
+#define FieldXPos 500
+#define FieldYPos 50
+
 //UTF-8 Коммент
+
 
 class Game
 {
 public:
-	Game();
+	Game(SDL_Renderer* Renderer, bool* PorgramStatus);
 	~Game();
 	
 
-	void Init(SDL_Renderer* Renderer);
+	void Init();
 	void Run();
 
 
 	//исправить размер field
-	void DrawField(int FieldX, int FieldY, std::array<std::array<int, 20>, 20> Field); 
+	void DrawField(int FieldX, int FieldY, FieldArray Field);
 
 	void Draw();
-	void HandleEvents(SDL_Event& e);
+	
 
 	void Clear();
 
 
 
 private:
+	//тут элементы, которые не нужны для совместного режима
+	std::array<int, 7> NumOfTetromino;
+
+	int xPos = 5;
+	int yPos = 0;
+
+protected:
+	void HandleEvents(SDL_Event& E);
+	SDL_Event E;
+
+	void DrawTetromino(int xPos, int yPso, Tetromino* Target);
+
 	bool* IsRunning;
 	
-	bool GameRunning;
+	bool IsGameRunning = true;
 
+	std::array<SDL_Rect, 7> BlocksClip;
+	FieldArray Field;
+	Tetromino* CurBlock = nullptr;
+	Tetromino* NextBlock = nullptr;
+	
 	SDL_Renderer* mRenderer = nullptr;
-
-
 	LTexture TetroBlocks;
 
 };

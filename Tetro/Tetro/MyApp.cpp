@@ -57,6 +57,7 @@ MyApp::~MyApp()
 void MyApp::Run()
 {
 	Menu* MyMenu = nullptr;
+	Game* MyGame = nullptr;
 	while(IsRunning) {
 		while (SDL_PollEvent(&e) != 0){
 		}
@@ -66,7 +67,10 @@ void MyApp::Run()
 		int PlayerSelect = MyMenu->Run();
 		delete MyMenu;
 		//Возвращаемое значение будет определять дальнейший ход программ
-		
+		MyGame = new Game(mRenderer, &IsRunning);
+		MyGame->Init();
+		MyGame->Run();
+		delete MyGame;
 		//Отдельный класс с игрой, все в нем, до гейм овера
 
 
