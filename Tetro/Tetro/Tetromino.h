@@ -10,11 +10,13 @@ class Tetromino
 {
 public:
 	Tetromino();
+	Tetromino(int X);
 	~Tetromino();
 
 	//void StartMoving(FieldArray StartArray);
 
 	void Rotate();
+	void ForceRotate();
 
 	void StartMoving(FieldArray& Field);
 

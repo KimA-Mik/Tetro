@@ -53,6 +53,62 @@ Tetromino::Tetromino()
 	}
 }
 
+Tetromino::Tetromino(int X)
+{
+repeat:
+	iType = X;
+
+	switch (iType)
+	{
+	case 1:
+		aTetro.at(0) = { 0,0,X,0 };
+		aTetro.at(1) = { 0,0,X,0 };
+		aTetro.at(2) = { 0,0,X,0 };
+		aTetro.at(3) = { 0,0,X,0 };
+		break;
+	case 2:
+		aTetro.at(0) = { 0,0,X,0 };
+		aTetro.at(1) = { 0,X,X,0 };
+		aTetro.at(2) = { 0,0,X,0 };
+		aTetro.at(3) = { 0,0,0,0 };
+		break;
+	case 3:
+		aTetro.at(0) = { 0,0,0,0 };
+		aTetro.at(1) = { 0,X,X,0 };
+		aTetro.at(2) = { 0,X,X,0 };
+		aTetro.at(3) = { 0,0,0,0 };
+		break;
+	case 4:
+		aTetro.at(0) = { 0,0,X,0 };
+		aTetro.at(1) = { 0,X,X,0 };
+		aTetro.at(2) = { 0,X,0,0 };
+		aTetro.at(3) = { 0,0,0,0 };
+		break;
+	case 5:
+		aTetro.at(0) = { 0,X,0,0 };
+		aTetro.at(1) = { 0,X,X,0 };
+		aTetro.at(2) = { 0,0,X,0 };
+		aTetro.at(3) = { 0,0,0,0 };
+		break;
+	case 6:
+		aTetro.at(0) = { 0,X,0,0 };
+		aTetro.at(1) = { 0,X,0,0 };
+		aTetro.at(2) = { 0,X,X,0 };
+		aTetro.at(3) = { 0,0,0,0 };
+		break;
+	case 7:
+		aTetro.at(0) = { 0,0,X,0 };
+		aTetro.at(1) = { 0,0,X,0 };
+		aTetro.at(2) = { 0,X,X,0 };
+		aTetro.at(3) = { 0,0,0,0 };
+		break;
+	default:
+		X = rand() % 7 + 1;
+		goto repeat;
+		break;
+	}
+}
+
 Tetromino::~Tetromino()
 {
 
@@ -100,6 +156,17 @@ void Tetromino::Rotate()
 	}
 	std::cout << std::endl;
 	std::cout << std::endl;
+}
+
+void Tetromino::ForceRotate()
+{
+	TetroArray Rotated;
+
+	for (int x = 0; x < 4; x++)
+		for (int y = 0; y < 4; y++) {
+			Rotated[y][4 - x - 1] = aTetro[x][y];
+		}
+	aTetro = Rotated;
 }
 
 void Tetromino::StartMoving(FieldArray& Field)

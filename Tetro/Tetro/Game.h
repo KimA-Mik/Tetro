@@ -41,11 +41,20 @@ private:
 	int xPos = 5;
 	int yPos = 0;
 
+	std::array<Tetromino*, 7> aScoreTetromino = { 0 };
+	std::array<int, 7> TetroCount = { 0 };
+	std::array<LTexture, 7> CountText;
+	TTF_Font* ScoreFont = nullptr;
+	SDL_Color ScoreColor = { 12, 36, 97,255 };
+	LTexture StatsText;
+
 protected:
 	void HandleEvents(SDL_Event& E);
 	SDL_Event E;
 
 	void DrawTetromino(int xPos, int yPso, Tetromino* Target);
+
+	void DrawTetroCount();
 
 	bool* IsRunning;
 	

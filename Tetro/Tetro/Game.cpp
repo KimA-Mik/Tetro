@@ -6,6 +6,9 @@ Game::Game(SDL_Renderer* Renderer, bool* PorgramStatus)
 	IsRunning = PorgramStatus;
 	mRenderer = Renderer;
 	TetroBlocks.loadFromFile(mRenderer, "Assets/Images/Tetro.png");
+	ScoreFont = TTF_OpenFont("Assets/Fonts/Codename.ttf", 32);
+	if (ScoreFont == nullptr)
+		SDL_Log("Unable to load font Assets/Fonts/Codename.ttf\n");
 	
 	for (int i = 0; i < 7; i++)
 		BlocksClip[i] = { i * 32,0,32,32 };
@@ -14,6 +17,11 @@ Game::Game(SDL_Renderer* Renderer, bool* PorgramStatus)
 Game::~Game()
 {
 	TetroBlocks.free();
+	for (int i = 0; i < 7; i++) {
+		delete aScoreTetromino[i];
+		CountText[i].free();
+	}
+	TTF_CloseFont(ScoreFont);
 }
 
 void Game::Init()
@@ -32,6 +40,25 @@ void Game::Init()
 	Field[9][0] = 1;
 	Field[0][1] = 1;
 	Field[9][1] = 1;
+	
+	
+	//счет
+	for (int i = 0; i < 7; i++) {
+		aScoreTetromino[i] = new Tetromino(i + 1);
+		std::string Score = "x" + std::to_string(TetroCount[i]);
+		CountText[i].loadFromRenderedText(mRenderer, ScoreFont, Score, ScoreColor);
+	}
+
+	StatsText.loadFromRenderedText(mRenderer, ScoreFont, "Статистика", ScoreColor);
+
+	aScoreTetromino[0]->ForceRotate();
+	aScoreTetromino[1]->ForceRotate();
+	aScoreTetromino[3]->ForceRotate();
+	aScoreTetromino[4]->ForceRotate();
+	aScoreTetromino[5]->ForceRotate();
+	aScoreTetromino[6]->ForceRotate();
+	
+
 
 }
 
@@ -49,8 +76,10 @@ void Game::Run()
 		}
 		SDL_SetRenderDrawColor(mRenderer, 245, 246, 250, 255);
 		SDL_RenderClear(mRenderer);
+		
 		DrawField(FieldXPos, FieldYPos, Field);
 		DrawTetromino(FieldXPos + 32 * xPos, FieldYPos + 32 * yPos, CurBlock);
+		DrawTetroCount();
 		
 		
 		
@@ -109,4 +138,18 @@ void Game::DrawTetromino(int xPos, int yPso, Tetromino* Target)
 			if (Figure[y][x])
 				TetroBlocks.render(xPos + 32 * x, yPso + 32 * y, &BlocksClip[Figure[y][x] - 1]);
 		}
+}
+
+void Game::DrawTetroCount()
+{
+	int xCoords = 0;
+	int yCoords = 15;
+	//aScoreTetromino[1]->Rotate();
+	for (int i = 0; i < 7; i++) {
+		DrawTetromino(xCoords, yCoords + 96 * i, aScoreTetromino[i]);
+		CountText[i].render(xCoords + 128, 64 +  yCoords + 96 * i);
+	}
+
+	StatsText.render(xCoords, yCoords);
+
 }

@@ -67,7 +67,8 @@ bool LTexture::loadFromRenderedText(SDL_Renderer* Renderer, TTF_Font* Font, std:
 	mRenderer = Renderer;
 
 	//Render text surface
-	SDL_Surface* textSurface = TTF_RenderText_Solid(Font, textureText.c_str(), textColor);
+	
+	SDL_Surface* textSurface = TTF_RenderUTF8_Solid(Font, textureText.c_str(), textColor);
 	if (textSurface != nullptr)
 	{
 		//Create texture from surface pixels
