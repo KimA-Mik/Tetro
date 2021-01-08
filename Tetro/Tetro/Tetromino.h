@@ -34,12 +34,13 @@ public:
 
 	void SetXPos(int x) { xPos = x; }
 	void SetYPos(int y) { yPos = y; }
+	int GetType() { return iType; }
 
 private:
 	FieldArray CurrField; //массив на начало движения
 	TetroArray aTetro ; // 4 на 4 тетромино
 	int iType; // тип тетромино 1 - 7
-	int xPos = 5;
+	int xPos = 3;
 	int yPos = 0;
 };
 

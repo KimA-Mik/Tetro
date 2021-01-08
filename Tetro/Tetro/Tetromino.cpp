@@ -114,29 +114,8 @@ Tetromino::~Tetromino()
 
 }
 
-#include <iostream>
 void Tetromino::Rotate()
 {
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++)
-			std::cout << aTetro.at(i).at(j);
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
-	//жожа
-	/*
-	int n = 4;
-	int b;
-	for (int i = 0; i < n / 2; i++)
-		for (int j = i; j < n - 1 - i; j++) {
-			b = aTetro[i][j];
-			aTetro[i][j] = aTetro[n - j - 1][i];
-			aTetro[n - j - 1][i] = aTetro[n - i - 1][n - j - 1];
-			aTetro[n - i - 1][n - j - 1] = aTetro[j][n - i - 1];
-			aTetro[j][n - i - 1] = b;
-	}
-	*/
-
 	TetroArray Rotated;
 
 	for(int x = 0; x < 4; x++)
@@ -146,16 +125,6 @@ void Tetromino::Rotate()
 
 	if (DoesItFitRotated(Rotated))
 		aTetro = Rotated;
-
-
-
-	for (int i = 0; i < 4; i++) {
-		for (int j = 0; j < 4; j++)
-			std::cout << Rotated[i][j];
-		std::cout << std::endl;
-	}
-	std::cout << std::endl;
-	std::cout << std::endl;
 }
 
 void Tetromino::ForceRotate()
@@ -201,14 +170,6 @@ FieldArray Tetromino::GetNewField()
 
 bool Tetromino::DoesItFit(int x, int y)
 {
-	//Ограничения поля
-	/*
-	if (x+4 > 9 || x < 0)
-		return false;
-	if (y+4 > 20 || y < 0)
-		return false;
-		*/
-
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++) {
 			if (x+i < 0 || x+i > 9 || y+j > 17) {
@@ -235,6 +196,5 @@ bool Tetromino::DoesItFitRotated(TetroArray &Rotated)
 			else if (CurrField[xPos + i][yPos + j] && Rotated[j][i])
 				return false;
 		}
-
 	return true;
 }
