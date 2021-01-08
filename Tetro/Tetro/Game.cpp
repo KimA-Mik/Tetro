@@ -28,6 +28,11 @@ void Game::Init()
 			Field[x][y] = 0;
 		}
 
+	Field[0][0] = 1;
+	Field[9][0] = 1;
+	Field[0][1] = 1;
+	Field[9][1] = 1;
+
 }
 
 void Game::Run()
@@ -78,7 +83,8 @@ void Game::HandleEvents(SDL_Event& E)
 
 		case SDLK_DOWN:
 			break;
-
+		//todo расширить размер массива под поля для служебных блоков
+		//чтоб не втыкаться в невидимые стены
 		case SDLK_LEFT:
 			SDL_Log("xPos = %d\n", xPos);
 			xPos -= (CurBlock->DoesItFit(xPos - 1, yPos)) ? 1 : 0;

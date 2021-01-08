@@ -135,14 +135,20 @@ FieldArray Tetromino::GetNewField()
 bool Tetromino::DoesItFit(int x, int y)
 {
 	//Ограничения поля
+	/*
 	if (x+4 > 9 || x < 0)
 		return false;
 	if (y+4 > 20 || y < 0)
 		return false;
+		*/
 
-	for (int x = 0; x < 4; x++)
-		for (int y = 0; y < 4; y++) {
-			if (CurrField[x][y] && aTetro[y][x])
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++) {
+			if (x+i < 0 || x+i > 9 || y+j > 17) {
+				if (aTetro[j][i])
+					return false;
+			}
+			else if (CurrField[x+i][y+j] && aTetro[j][i])
 				return false;
 		}
 	
@@ -153,9 +159,13 @@ bool Tetromino::DoesItFitRotated(TetroArray &Rotated)
 {
 	//Ограничения поля
 
-	for (int x = 0; x < 4; x++)
-		for (int y = 0; y < 4; y++) {
-			if (CurrField[x][y] && Rotated[y][x])
+	for (int i = 0; i < 4; i++)
+		for (int j = 0; j < 4; j++) {
+			if (xPos + i < 0 || xPos + i > 9 || yPos + j > 17) {
+				if (Rotated[j][i])
+					return false;
+			}
+			else if (CurrField[xPos + i][yPos + j] && Rotated[j][i])
 				return false;
 		}
 
