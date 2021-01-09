@@ -28,20 +28,9 @@ Game::~Game()
 void Game::Init()
 {
 	//поле
-	/*
+	
 	for (int i = 0; i < 10; i++)
 		Field.at(i) = { 0 };
-	*/
-	for(int x = 0;x<10;x++)
-		for (int y = 0; y < 20; y++) {
-			Field[x][y] = 0;
-		}
-
-	Field[0][0] = 1;
-	Field[9][0] = 1;
-	Field[0][1] = 1;
-	Field[9][1] = 1;
-	
 	
 	//счет
 	for (int i = 0; i < 7; i++) {
@@ -173,6 +162,9 @@ void Game::Run()
 
 void Game::DrawField(int FieldX, int FieldY, FieldArray DrawableField)
 {
+	SDL_Rect Back = { FieldX,FieldY, 10 * 32,20 * 32 };
+	SDL_SetRenderDrawColor(mRenderer, 220, 221, 225, 255);
+	SDL_RenderFillRect(mRenderer, &Back);
 	for(int x = 0; x < 10; x++)
 		for (int y = 0; y < 20; y++) {
 			if(DrawableField[x][y])
@@ -200,13 +192,11 @@ void Game::HandleEvents(SDL_Event& E)
 			break;
 		
 		case SDLK_LEFT:
-			SDL_Log("xPos = %d\n", xPos);
 			xPos -= (CurBlock->DoesItFit(xPos - 1, yPos)) ? 1 : 0;
 			CurBlock->SetXPos(xPos);//косяк
 			break;
 
 		case SDLK_RIGHT:
-			SDL_Log("xPos = %d\n", xPos);
 			xPos += (CurBlock->DoesItFit(xPos + 1, yPos)) ? 1 : 0;
 			CurBlock->SetXPos(xPos);
 			break;

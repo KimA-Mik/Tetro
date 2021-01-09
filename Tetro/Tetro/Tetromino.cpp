@@ -172,7 +172,7 @@ bool Tetromino::DoesItFit(int x, int y)
 {
 	for (int i = 0; i < 4; i++)
 		for (int j = 0; j < 4; j++) {
-			if (x+i < 0 || x+i > 9 || y+j > 17) {
+			if (x+i < 0 || x+i > 9 || y+j > 19) {
 				if (aTetro[j][i])
 					return false;
 			}
