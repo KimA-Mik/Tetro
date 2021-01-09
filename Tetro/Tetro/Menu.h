@@ -71,9 +71,7 @@ private:
 
 	std::array<std::array<int, 23>, 40> aBackgroundField;
 
-	//bool* IsRunning = nullptr;
 	bool IsMenuNeeded = true;
 
-	//SDL_Renderer* mRenderer = nullptr;
 };
 //UTF-8 Коммент

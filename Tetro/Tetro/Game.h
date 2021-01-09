@@ -64,7 +64,6 @@ protected:
 
 	std::vector<int> vLines;
 
-	//bool* IsRunning = nullptr;
 	
 	bool IsGameRunning = true;
 
@@ -78,7 +77,6 @@ protected:
 	Tetromino* CurBlock = nullptr;
 	Tetromino* NextBlock = nullptr;
 	
-	//SDL_Renderer* mRenderer = nullptr;
 	LTexture TetroBlocks;
 
 };

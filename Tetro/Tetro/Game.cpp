@@ -58,7 +58,6 @@ void Game::Init()
 
 int Game::Run()
 {
-
 	CurBlock = new Tetromino;
 	NextBlock = new Tetromino;
 	CurBlock->StartMoving(Field);
@@ -109,7 +108,7 @@ int Game::Run()
 				yPos = 0;
 
 				if (!CurBlock->DoesItFit(xPos, yPos)) {
-					//gameover
+					GameOver();
 					IsGameRunning = false;
 				}
 
@@ -281,4 +280,37 @@ void Game::DrawNextBlock()
 	int x = FieldXPos + 32 * 10 + 100;
 	NextBlockText.render(x, 100);
 	DrawTetromino(x, 150, NextBlock);
+}
+
+void Game::GameOver()
+{
+	SDL_SetRenderDrawColor(mRenderer, 245, 246, 250, 255);
+	SDL_RenderClear(mRenderer);
+	
+	TTF_Font* Font = TTF_OpenFont("Assets/Fonts/Codename.ttf", 64);
+	LTexture GameOver;
+	GameOver.loadFromRenderedText(mRenderer, Font, "Игра окончена", scoreColor);
+	TTF_CloseFont(Font);
+
+	GameOver.render(1280 / 2 - GameOver.getWidth() / 2, 150);
+
+	std::string Score = "Итоговый счет: " + std::to_string(GameScore);
+	ScoreImage.loadFromRenderedText(mRenderer, scoreFont, Score, scoreColor);
+
+	ScoreImage.render(1280 / 2 - ScoreImage.getWidth() / 2, 350);
+
+	SDL_RenderPresent(mRenderer);
+
+	bool Wait = true;
+
+	while (Wait && *IsRunning) {
+		while (SDL_PollEvent(&E)) {
+			if (E.type == SDL_QUIT)
+				*IsRunning = false;
+			if (E.type == SDL_KEYDOWN)
+				Wait = false;
+		}
+	}
+	GameOver.free();
+
 }
