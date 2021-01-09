@@ -6,8 +6,8 @@ Game::Game(SDL_Renderer* Renderer, bool* PorgramStatus) : GameClass(Renderer, Po
 	//IsRunning = PorgramStatus;
 	//mRenderer = Renderer;
 	TetroBlocks.loadFromFile(mRenderer, "Assets/Images/Tetro.png");
-	ScoreFont = TTF_OpenFont("Assets/Fonts/Codename.ttf", 32);
-	if (ScoreFont == nullptr)
+	scoreFont = TTF_OpenFont("Assets/Fonts/Codename.ttf", 32);
+	if (scoreFont == nullptr)
 		SDL_Log("Unable to load font Assets/Fonts/Codename.ttf\n");
 	
 	for (int i = 0; i < 7; i++)
@@ -19,9 +19,9 @@ Game::~Game()
 	TetroBlocks.free();
 	for (int i = 0; i < 7; i++) {
 		delete aScoreTetromino[i];
-		CountText[i].free();
+		countText[i].free();
 	}
-	TTF_CloseFont(ScoreFont);
+	TTF_CloseFont(scoreFont);
 	NextBlockText.free();
 }
 
@@ -35,15 +35,15 @@ void Game::Init()
 	//счет
 	for (int i = 0; i < 7; i++) {
 		aScoreTetromino[i] = new Tetromino(i + 1);
-		std::string Score = "x" + std::to_string(TetroCount[i]);
-		CountText[i].loadFromRenderedText(mRenderer, ScoreFont, Score, ScoreColor);
+		std::string Score = "x" + std::to_string(tetroCount[i]);
+		countText[i].loadFromRenderedText(mRenderer, scoreFont, Score, scoreColor);
 	}
 
-	StatsText.loadFromRenderedText(mRenderer, ScoreFont, "Статистика", ScoreColor);
+	statsText.loadFromRenderedText(mRenderer, scoreFont, "Статистика", scoreColor);
 
 	UpdateScore(0);
 
-	NextBlockText.loadFromRenderedText(mRenderer, ScoreFont, "Следующий блок", ScoreColor);
+	NextBlockText.loadFromRenderedText(mRenderer, scoreFont, "Следующий блок", scoreColor);
 
 	aScoreTetromino[0]->ForceRotate();
 	aScoreTetromino[1]->ForceRotate();
@@ -78,8 +78,8 @@ int Game::Run()
 		
 		if (bForceDown) {
 			SpeedCount = 0;
-			PieceCount++;
-			if (PieceCount % 50 == 0)
+			pieceCount++;
+			if (pieceCount % 50 == 0)
 				if (Speed >= 10) Speed--;
 			//каждые 50 спучков повышаем сложность
 
@@ -98,7 +98,7 @@ int Game::Run()
 							Field[xPos + i][yPos + j] = CurFigure[j][i];
 					}
 
-				++TetroCount[CurBlock->GetType() - 1];
+				++tetroCount[CurBlock->GetType() - 1];
 				UpdateTetroCount();
 				//вызываем новый блок
 				delete CurBlock;
@@ -107,6 +107,11 @@ int Game::Run()
 				CurBlock->StartMoving(Field);
 				xPos = 3;
 				yPos = 0;
+
+				if (!CurBlock->DoesItFit(xPos, yPos)) {
+					//gameover
+					IsGameRunning = false;
+				}
 
 				//проверяем линии
 				for (int y = 0; y < 20; y++) {
@@ -222,8 +227,8 @@ void Game::DrawTetromino(int xPos, int yPso, Tetromino* Target)
 void Game::UpdateTetroCount()
 {
 	for (int i = 0; i < 7; i++) {
-		std::string Score = "x" + std::to_string(TetroCount[i]);
-		CountText[i].loadFromRenderedText(mRenderer, ScoreFont, Score, ScoreColor);
+		std::string Score = "x" + std::to_string(tetroCount[i]);
+		countText[i].loadFromRenderedText(mRenderer, scoreFont, Score, scoreColor);
 	}
 }
 
@@ -234,10 +239,10 @@ void Game::DrawTetroCount()
 	//aScoreTetromino[1]->Rotate();
 	for (int i = 0; i < 7; i++) {
 		DrawTetromino(xCoords, yCoords + 96 * i, aScoreTetromino[i]);
-		CountText[i].render(xCoords + 128, 64 +  yCoords + 96 * i);
+		countText[i].render(xCoords + 128, 64 +  yCoords + 96 * i);
 	}
 
-	StatsText.render(xCoords, yCoords);
+	statsText.render(xCoords, yCoords);
 
 }
 
@@ -263,7 +268,7 @@ void Game::UpdateScore(int LinesCount)
 	}
 
 	std::string Score = "Текущий счет: " + std::to_string(GameScore);
-	ScoreImage.loadFromRenderedText(mRenderer, ScoreFont, Score, ScoreColor);
+	ScoreImage.loadFromRenderedText(mRenderer, scoreFont, Score, scoreColor);
 }
 
 void Game::DrawScore()
