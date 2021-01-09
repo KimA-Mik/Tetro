@@ -6,7 +6,8 @@
 #include <string>
 #include <array>
 #include "LTexture.h"
-class Menu
+#include "GameClass.h"
+class Menu : public GameClass
 {
 public:
 	Menu(SDL_Renderer* Renderer, bool* PorgramStatus);
@@ -70,9 +71,7 @@ private:
 
 	std::array<std::array<int, 23>, 40> aBackgroundField;
 
-	bool* IsRunning = nullptr;
 	bool IsMenuNeeded = true;
 
-	SDL_Renderer* mRenderer = nullptr;
 };
 //UTF-8 Коммент

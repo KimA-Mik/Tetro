@@ -56,21 +56,20 @@ MyApp::~MyApp()
 
 void MyApp::Run()
 {
-	Menu* MyMenu = nullptr;
-	Game* MyGame = nullptr;
+	GameClass* App = nullptr;
 	while(IsRunning) {
 		while (SDL_PollEvent(&e) != 0){
 		}
 
 		//Меню, в нем что-от бует
-		MyMenu = new Menu(mRenderer, &IsRunning);
-		int PlayerSelect = MyMenu->Run();
-		delete MyMenu;
+		App = new Menu(mRenderer, &IsRunning);
+		int PlayerSelect = App->Run();
+		delete App;
 		//Возвращаемое значение будет определять дальнейший ход программ
-		MyGame = new Game(mRenderer, &IsRunning);
-		MyGame->Init();
-		MyGame->Run();
-		delete MyGame;
+		App = new Game(mRenderer, &IsRunning);
+		App->Init();
+		App->Run();
+		delete App;
 		//Отдельный класс с игрой, все в нем, до гейм овера
 
 

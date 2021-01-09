@@ -3,6 +3,7 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <SDL_image.h>
+#include "GameClass.h"
 #include "Menu.h"
 #include "Game.h"
 
