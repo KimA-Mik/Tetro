@@ -7,6 +7,7 @@
 #include <vector>
 #include "LTexture.h"
 #include "Tetromino.h"
+#include "GameClass.h"
 #define FieldArray std::array<std::array<int,20>,10>
 #define TetroArray std::array<std::array<int, 4>, 4>
 #define FieldXPos 500
@@ -15,7 +16,7 @@
 //UTF-8 Коммент
 
 
-class Game
+class Game : public GameClass
 {
 public:
 	Game(SDL_Renderer* Renderer, bool* PorgramStatus);
@@ -23,18 +24,11 @@ public:
 	
 
 	void Init();
-	void Run();
+	int Run();
 
 
 	//исправить размер field
 	void DrawField(int FieldX, int FieldY, FieldArray Field);
-
-	void Draw();
-	
-
-	void Clear();
-
-
 
 private:
 	//тут элементы, которые не нужны для совместного режима
@@ -68,7 +62,7 @@ protected:
 
 	std::vector<int> vLines;
 
-	bool* IsRunning = nullptr;
+	//bool* IsRunning = nullptr;
 	
 	bool IsGameRunning = true;
 
@@ -82,7 +76,7 @@ protected:
 	Tetromino* CurBlock = nullptr;
 	Tetromino* NextBlock = nullptr;
 	
-	SDL_Renderer* mRenderer = nullptr;
+	//SDL_Renderer* mRenderer = nullptr;
 	LTexture TetroBlocks;
 
 };

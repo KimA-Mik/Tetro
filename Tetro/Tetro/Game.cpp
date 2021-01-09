@@ -1,10 +1,10 @@
 #include "Game.h"
 //UTF-8 Коммент
 
-Game::Game(SDL_Renderer* Renderer, bool* PorgramStatus)
+Game::Game(SDL_Renderer* Renderer, bool* PorgramStatus) : GameClass(Renderer, PorgramStatus)
 {
-	IsRunning = PorgramStatus;
-	mRenderer = Renderer;
+	//IsRunning = PorgramStatus;
+	//mRenderer = Renderer;
 	TetroBlocks.loadFromFile(mRenderer, "Assets/Images/Tetro.png");
 	ScoreFont = TTF_OpenFont("Assets/Fonts/Codename.ttf", 32);
 	if (ScoreFont == nullptr)
@@ -56,7 +56,7 @@ void Game::Init()
 
 }
 
-void Game::Run()
+int Game::Run()
 {
 
 	CurBlock = new Tetromino;
@@ -158,6 +158,7 @@ void Game::Run()
 		
 		SDL_RenderPresent(mRenderer);
 	}
+	return 0;
 }
 
 void Game::DrawField(int FieldX, int FieldY, FieldArray DrawableField)

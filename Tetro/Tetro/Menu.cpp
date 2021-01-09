@@ -1,11 +1,8 @@
 #include "Menu.h"
 //UTF-8 Коммент
-#include <iostream>
 
-Menu::Menu(SDL_Renderer* Renderer, bool* PorgramStatus)
+Menu::Menu(SDL_Renderer* Renderer, bool* PorgramStatus) : GameClass(Renderer, PorgramStatus)
 {
-	mRenderer = Renderer;
-	IsRunning = PorgramStatus;
 	Blocks.loadFromFile(mRenderer, "Assets/Images/Tetro.png");
 	Logo.loadFromFile(mRenderer, "Assets/Images/Logo.png");
 	OnePButton.loadFromFile(mRenderer, "Assets/Images/OnePButton.png");
