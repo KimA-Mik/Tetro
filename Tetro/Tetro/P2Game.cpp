@@ -3,9 +3,9 @@
 
 P2Game::P2Game(SDL_Renderer* Renderer, bool* PorgramStatus) : Game(Renderer, PorgramStatus)
 {
-	FieldXPos = 0;
+	FieldXPos = 10;
 	FieldYPos = 50;
-	P2FieldXPos = 400;
+	P2FieldXPos = 950;
 	P2FieldYPos = 50;
 }
 
@@ -106,7 +106,7 @@ int P2Game::Run()
 			}//если нет, значит блок достиг дна
 			else {
 				//закрепляем его на поле
-				TetroArray CurFigure = CurBlock->GetFigure();
+				TetroArray CurFigure = P2CurBlock->GetFigure();
 				for (int i = 0; i < 4; i++)
 					for (int j = 0; j < 4; j++) {
 						if (CurFigure[j][i])
@@ -117,11 +117,11 @@ int P2Game::Run()
 				delete P2CurBlock;
 				P2CurBlock = P2NextBlock;
 				P2NextBlock = new Tetromino;
-				P2CurBlock->StartMoving(Field);
+				P2CurBlock->StartMoving(P2Field);
 				P2xPos = 3;
 				P2yPos = 0;
 
-				if (!P2CurBlock->DoesItFit(xPos, yPos)) {
+				if (!P2CurBlock->DoesItFit(P2xPos, P2yPos)) {
 					GameOver();
 					IsGameRunning = false;
 				}
@@ -179,6 +179,10 @@ int P2Game::Run()
 
 		DrawField(FieldXPos, FieldYPos, Field);
 		DrawTetromino(FieldXPos + 32 * xPos, FieldYPos + 32 * yPos, CurBlock);
+
+		DrawField(P2FieldXPos, P2FieldYPos, P2Field);
+		DrawTetromino(P2FieldXPos + 32 * P2xPos, P2FieldYPos + 32 * P2yPos, P2CurBlock);
+
 		DrawScore();
 		DrawNextBlock();
 
@@ -227,19 +231,19 @@ void P2Game::HandleEvents(SDL_Event& E)
 			break;
 
 		case SDLK_UP:
-			P2CurBlock->Rotate(xPos, yPos);
+			P2CurBlock->Rotate(P2xPos, P2yPos);
 			break;
 
 		case SDLK_DOWN:
-			P2yPos += (P2CurBlock->DoesItFit(xPos, yPos + 1)) ? 1 : 0;
+			P2yPos += (P2CurBlock->DoesItFit(P2xPos, P2yPos + 1)) ? 1 : 0;
 			break;
 
 		case SDLK_LEFT:
-			P2xPos -= (P2CurBlock->DoesItFit(xPos - 1, yPos)) ? 1 : 0;
+			P2xPos -= (P2CurBlock->DoesItFit(P2xPos - 1, P2yPos)) ? 1 : 0;
 			break;
 
 		case SDLK_RIGHT:
-			P2xPos += (P2CurBlock->DoesItFit(xPos + 1, yPos)) ? 1 : 0;
+			P2xPos += (P2CurBlock->DoesItFit(P2xPos + 1, P2yPos)) ? 1 : 0;
 			break;
 		}
 		break;
@@ -248,11 +252,19 @@ void P2Game::HandleEvents(SDL_Event& E)
 
 void P2Game::DrawNextBlock()
 {
+	int x = FieldXPos + 32 * 10 + 10;
+	NextBlockText.render(x, 100);
+	DrawTetromino(x, 150, NextBlock);
 
+	x = P2FieldXPos - NextBlockText.getWidth() - 10;
+	NextBlockText.render(x, 100);
+	DrawTetromino(x, 150, P2NextBlock);
 }
 
 void P2Game::DrawScore()
 {
+	ScoreImage.render(FieldXPos, 10);
+	P2ScoreImage.render(P2FieldXPos, 10);
 }
 
 void P2Game::UpdateScore(int nLines, int Player)
