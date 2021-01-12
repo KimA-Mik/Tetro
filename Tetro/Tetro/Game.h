@@ -10,8 +10,7 @@
 #include "GameClass.h"
 #define FieldArray std::array<std::array<int,20>,10>
 #define TetroArray std::array<std::array<int, 4>, 4>
-#define FieldXPos 500
-#define FieldYPos 50
+
 
 //UTF-8 Коммент
 
@@ -26,9 +25,7 @@ public:
 	virtual void Init();
 	virtual int Run();
 
-
-	//исправить размер field
-	void DrawField(int FieldX, int FieldY, FieldArray Field);
+	
 
 private:
 	//тут элементы, которые не нужны для совместного режима
@@ -45,9 +42,16 @@ private:
 	void DrawTetroCount();
 
 protected:
+
+	int FieldXPos = 500;
+	int FieldYPos = 50;
+
+
 	int xPos = 3;
 	int yPos = 0;
 	
+	void DrawField(int FieldX, int FieldY, FieldArray Field);
+
 	void HandleEvents(SDL_Event& E);
 	SDL_Event E;
 

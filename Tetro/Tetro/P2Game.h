@@ -13,8 +13,9 @@ public:
 private:
 	void HandleEvents(SDL_Event& E);
 
-	int P2xPos = 3;
-	int P2yPos = 0;
+	
+
+
 
 	void DrawNextBlock();
 	void DrawScore();
@@ -23,6 +24,17 @@ private:
 	Tetromino* P2CurBlock = nullptr;
 	Tetromino* P2NextBlock = nullptr;
 	FieldArray P2Field;
+
+	int P2xPos = 3;
+	int P2yPos = 0;
+	int P2GameScore = 0;
+	int P2FieldXPos = 0;
+	int P2FieldYPos = 0;
+
+	std::vector<int> vP2Lines;
+
+
+
 
 	int P2Score = 2;
 	LTexture P2ScoreImage;
