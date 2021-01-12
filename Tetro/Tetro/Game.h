@@ -23,8 +23,8 @@ public:
 	~Game();
 	
 
-	void Init();
-	int Run();
+	virtual void Init();
+	virtual int Run();
 
 
 	//исправить размер field
@@ -33,8 +33,7 @@ public:
 private:
 	//тут элементы, которые не нужны для совместного режима
 
-	int xPos = 3;
-	int yPos = 0;
+	
 
 	//стстистика установленныъ блоков
 	std::array<Tetromino*, 7> aScoreTetromino = { 0 };
@@ -46,16 +45,19 @@ private:
 	void DrawTetroCount();
 
 protected:
+	int xPos = 3;
+	int yPos = 0;
+	
 	void HandleEvents(SDL_Event& E);
 	SDL_Event E;
 
 	void DrawTetromino(int xPos, int yPso, Tetromino* Target);
 	void UpdateScore(int LinesCount);
-	void DrawScore();
-	void DrawNextBlock();
+	virtual void DrawScore();
+	virtual void DrawNextBlock();
 	LTexture NextBlockText;
 
-	void GameOver();
+	virtual void GameOver();
 
 	int Speed = 40;
 	int SpeedCount = 0;
