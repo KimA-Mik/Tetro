@@ -57,91 +57,96 @@ int P2Game::Run()
 			//каждые 50 спучков повышаем сложность
 
 			// Проверяем, можно ли сдвинуть вниз
-			if (CurBlock->DoesItFit(xPos, yPos + 1)) {
-				//если да - двигаем
-				yPos++;
-			}//если нет, значит блок достиг дна
-			else {
-				//закрепляем его на поле
-				TetroArray CurFigure = CurBlock->GetFigure();
-				for (int i = 0; i < 4; i++)
-					for (int j = 0; j < 4; j++) {
-						if (CurFigure[j][i])
-							Field[xPos + i][yPos + j] = CurFigure[j][i];
+			if (bP1inGame) {
+				if (CurBlock->DoesItFit(xPos, yPos + 1)) {
+					//если да - двигаем
+					yPos++;
+				}//если нет, значит блок достиг дна
+				else {
+					//закрепляем его на поле
+					TetroArray CurFigure = CurBlock->GetFigure();
+					for (int i = 0; i < 4; i++)
+						for (int j = 0; j < 4; j++) {
+							if (CurFigure[j][i])
+								Field[xPos + i][yPos + j] = CurFigure[j][i];
+						}
+
+					//вызываем новый блок
+					delete CurBlock;
+					CurBlock = NextBlock;
+					NextBlock = new Tetromino;
+					CurBlock->StartMoving(Field);
+					xPos = 3;
+					yPos = 0;
+
+					if (!CurBlock->DoesItFit(xPos, yPos)) {
+						bP1inGame = false;
 					}
 
-				//вызываем новый блок
-				delete CurBlock;
-				CurBlock = NextBlock;
-				NextBlock = new Tetromino;
-				CurBlock->StartMoving(Field);
-				xPos = 3;
-				yPos = 0;
+					//проверяем линии
+					for (int y = 0; y < 20; y++) {
+						bool bLine = true;
+						for (int x = 0; x < 10; x++) {
+							bLine = Field[x][y] && bLine;
+						}
+						if (bLine) {
+							vLines.push_back(y);
+							//сюда можно вставить анимацию
+						}
+					}
 
-				if (!CurBlock->DoesItFit(xPos, yPos)) {
-					GameOver();
-					IsGameRunning = false;
+					if (!vLines.empty())
+						UpdateScore(vLines.size(), 1);
+
 				}
-
-				//проверяем линии
-				for (int y = 0; y < 20; y++) {
-					bool bLine = true;
-					for (int x = 0; x < 10; x++) {
-						bLine = Field[x][y] && bLine;
-					}
-					if (bLine) {
-						vLines.push_back(y);
-						//сюда можно вставить анимацию
-					}
-				}
-
-				if (!vLines.empty())
-					UpdateScore(vLines.size(), 1);
-
 			}
 
-			if (P2CurBlock->DoesItFit(P2xPos, P2yPos + 1)) {
-				//если да - двигаем
-				P2yPos++;
-			}//если нет, значит блок достиг дна
-			else {
-				//закрепляем его на поле
-				TetroArray CurFigure = P2CurBlock->GetFigure();
-				for (int i = 0; i < 4; i++)
-					for (int j = 0; j < 4; j++) {
-						if (CurFigure[j][i])
-							P2Field[P2xPos + i][P2yPos + j] = CurFigure[j][i];
+			if (bP2inGame) {
+				if (P2CurBlock->DoesItFit(P2xPos, P2yPos + 1)) {
+					//если да - двигаем
+					P2yPos++;
+				}//если нет, значит блок достиг дна
+				else {
+					//закрепляем его на поле
+					TetroArray CurFigure = P2CurBlock->GetFigure();
+					for (int i = 0; i < 4; i++)
+						for (int j = 0; j < 4; j++) {
+							if (CurFigure[j][i])
+								P2Field[P2xPos + i][P2yPos + j] = CurFigure[j][i];
+						}
+
+					//вызываем новый блок
+					delete P2CurBlock;
+					P2CurBlock = P2NextBlock;
+					P2NextBlock = new Tetromino;
+					P2CurBlock->StartMoving(P2Field);
+					P2xPos = 3;
+					P2yPos = 0;
+
+					if (!P2CurBlock->DoesItFit(P2xPos, P2yPos)) {;
+						bP2inGame = false;
 					}
 
-				//вызываем новый блок
-				delete P2CurBlock;
-				P2CurBlock = P2NextBlock;
-				P2NextBlock = new Tetromino;
-				P2CurBlock->StartMoving(P2Field);
-				P2xPos = 3;
-				P2yPos = 0;
+					//проверяем линии
+					for (int y = 0; y < 20; y++) {
+						bool bLine = true;
+						for (int x = 0; x < 10; x++) {
+							bLine = P2Field[x][y] && bLine;
+						}
+						if (bLine) {
+							vP2Lines.push_back(y);
+						}
+					}
 
-				if (!P2CurBlock->DoesItFit(P2xPos, P2yPos)) {
-					GameOver();
-					IsGameRunning = false;
+					if (!vP2Lines.empty())
+						UpdateScore(vP2Lines.size(), 2);
+
 				}
-
-				//проверяем линии
-				for (int y = 0; y < 20; y++) {
-					bool bLine = true;
-					for (int x = 0; x < 10; x++) {
-						bLine = P2Field[x][y] && bLine;
-					}
-					if (bLine) {
-						vP2Lines.push_back(y);
-					}
-				}
-
-				if (!vP2Lines.empty())
-					UpdateScore(vP2Lines.size(), 2);
-
 			}
 		}
+
+		if (!bP1inGame && !bP2inGame)
+			GameOver();
 
 		if (!vLines.empty()) {
 
@@ -195,10 +200,6 @@ int P2Game::Run()
 
 
 	}
-
-
-
-
 
 	
 	return 0;

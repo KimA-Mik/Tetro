@@ -13,6 +13,9 @@ public:
 private:
 	void HandleEvents(SDL_Event& E);
 
+	bool bP1inGame = true;
+	bool bP2inGame = true;
+
 	
 
 
