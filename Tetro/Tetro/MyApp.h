@@ -5,7 +5,7 @@
 #include <SDL_image.h>
 #include "GameClass.h"
 #include "Menu.h"
-#include "Game.h"
+#include "P2Game.h"
 
 //мое приложение
 class MyApp

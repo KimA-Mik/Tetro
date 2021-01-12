@@ -66,7 +66,9 @@ void MyApp::Run()
 		int PlayerSelect = App->Run();
 		delete App;
 		//Возвращаемое значение будет определять дальнейший ход программ
-		App = new Game(mRenderer, &IsRunning);
+		
+		App = (PlayerSelect == 2) ? new P2Game(mRenderer, &IsRunning) : new Game(mRenderer, &IsRunning);
+		
 		App->Init();
 		App->Run();
 		delete App;

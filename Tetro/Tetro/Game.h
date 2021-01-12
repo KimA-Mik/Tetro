@@ -10,8 +10,7 @@
 #include "GameClass.h"
 #define FieldArray std::array<std::array<int,20>,10>
 #define TetroArray std::array<std::array<int, 4>, 4>
-#define FieldXPos 500
-#define FieldYPos 50
+
 
 //UTF-8 Коммент
 
@@ -23,18 +22,15 @@ public:
 	~Game();
 	
 
-	void Init();
-	int Run();
+	virtual void Init();
+	virtual int Run();
 
-
-	//исправить размер field
-	void DrawField(int FieldX, int FieldY, FieldArray Field);
+	
 
 private:
 	//тут элементы, которые не нужны для совместного режима
 
-	int xPos = 3;
-	int yPos = 0;
+	
 
 	//стстистика установленныъ блоков
 	std::array<Tetromino*, 7> aScoreTetromino = { 0 };
@@ -46,16 +42,26 @@ private:
 	void DrawTetroCount();
 
 protected:
+
+	int FieldXPos = 500;
+	int FieldYPos = 50;
+
+
+	int xPos = 3;
+	int yPos = 0;
+	
+	void DrawField(int FieldX, int FieldY, FieldArray Field);
+
 	void HandleEvents(SDL_Event& E);
 	SDL_Event E;
 
 	void DrawTetromino(int xPos, int yPso, Tetromino* Target);
 	void UpdateScore(int LinesCount);
-	void DrawScore();
-	void DrawNextBlock();
+	virtual void DrawScore();
+	virtual void DrawNextBlock();
 	LTexture NextBlockText;
 
-	void GameOver();
+	virtual void GameOver();
 
 	int Speed = 40;
 	int SpeedCount = 0;

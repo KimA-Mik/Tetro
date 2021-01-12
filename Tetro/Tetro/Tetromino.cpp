@@ -114,7 +114,7 @@ Tetromino::~Tetromino()
 
 }
 
-void Tetromino::Rotate()
+void Tetromino::Rotate(int xPos, int yPos)
 {
 	TetroArray Rotated;
 
@@ -123,7 +123,7 @@ void Tetromino::Rotate()
 			Rotated[y][4-x-1] = aTetro[x][y];
 		}
 
-	if (DoesItFitRotated(Rotated))
+	if (DoesItFitRotated(xPos,yPos, Rotated))
 		aTetro = Rotated;
 }
 
@@ -143,20 +143,6 @@ void Tetromino::StartMoving(FieldArray& Field)
 	CurrField = Field;
 }
 
-void Tetromino::MoveLeft()
-{
-	return;
-}
-
-void Tetromino::MoveRight()
-{
-	return;
-}
-
-bool Tetromino::MoveDown()
-{
-	return false;
-}
 
 TetroArray Tetromino::GetFigure()
 {
@@ -183,7 +169,7 @@ bool Tetromino::DoesItFit(int x, int y)
 	return true;
 }
 
-bool Tetromino::DoesItFitRotated(TetroArray &Rotated)
+bool Tetromino::DoesItFitRotated(int xPos, int yPos, TetroArray& Rotated)
 {
 	//Ограничения поля
 

@@ -12,6 +12,8 @@ Game::Game(SDL_Renderer* Renderer, bool* PorgramStatus) : GameClass(Renderer, Po
 	
 	for (int i = 0; i < 7; i++)
 		BlocksClip[i] = { i * 32,0,32,32 };
+
+	NextBlockText.loadFromRenderedText(mRenderer, scoreFont, "Следующий блок", scoreColor);
 }
 
 Game::~Game()
@@ -43,7 +45,6 @@ void Game::Init()
 
 	UpdateScore(0);
 
-	NextBlockText.loadFromRenderedText(mRenderer, scoreFont, "Следующий блок", scoreColor);
 
 	aScoreTetromino[0]->ForceRotate();
 	aScoreTetromino[1]->ForceRotate();
@@ -61,7 +62,7 @@ int Game::Run()
 	CurBlock = new Tetromino;
 	NextBlock = new Tetromino;
 	CurBlock->StartMoving(Field);
-	CurBlock->Rotate();
+	CurBlock->Rotate(xPos, yPos);
 	
 	while (IsGameRunning && *IsRunning)
 	{
@@ -86,7 +87,6 @@ int Game::Run()
 			if (CurBlock->DoesItFit(xPos, yPos + 1)) {
 				//если да - двигаем
 				yPos++;
-				CurBlock->SetYPos(yPos);
 			}//если нет, значит блок достиг дна
 			else {
 				//закрепляем его на поле
@@ -188,22 +188,19 @@ void Game::HandleEvents(SDL_Event& E)
 		switch (E.key.keysym.sym)
 		{
 		case SDLK_UP:
-			CurBlock->Rotate();
+			CurBlock->Rotate(xPos,yPos);
 			break;
 
 		case SDLK_DOWN:
 			yPos += (CurBlock->DoesItFit(xPos, yPos + 1)) ? 1 : 0;
-			CurBlock->SetYPos(yPos);
 			break;
 		
 		case SDLK_LEFT:
 			xPos -= (CurBlock->DoesItFit(xPos - 1, yPos)) ? 1 : 0;
-			CurBlock->SetXPos(xPos);//косяк
 			break;
 
 		case SDLK_RIGHT:
 			xPos += (CurBlock->DoesItFit(xPos + 1, yPos)) ? 1 : 0;
-			CurBlock->SetXPos(xPos);
 			break;
 		}
 		break;
@@ -235,7 +232,6 @@ void Game::DrawTetroCount()
 {
 	int xCoords = 0;
 	int yCoords = 15;
-	//aScoreTetromino[1]->Rotate();
 	for (int i = 0; i < 7; i++) {
 		DrawTetromino(xCoords, yCoords + 96 * i, aScoreTetromino[i]);
 		countText[i].render(xCoords + 128, 64 +  yCoords + 96 * i);
