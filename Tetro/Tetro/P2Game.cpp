@@ -123,7 +123,7 @@ int P2Game::Run()
 					P2xPos = 3;
 					P2yPos = 0;
 
-					if (!P2CurBlock->DoesItFit(P2xPos, P2yPos)) {;
+					if (!P2CurBlock->DoesItFit(P2xPos, P2yPos)) {
 						bP2inGame = false;
 					}
 
@@ -145,8 +145,12 @@ int P2Game::Run()
 			}
 		}
 
-		if (!bP1inGame && !bP2inGame)
+		if (!bP1inGame && !bP2inGame) {
+			IsGameRunning = false;
 			GameOver();
+			break;
+		}
+			
 
 		if (!vLines.empty()) {
 
@@ -249,6 +253,50 @@ void P2Game::HandleEvents(SDL_Event& E)
 		}
 		break;
 	}
+}
+
+void P2Game::GameOver()
+{
+	SDL_SetRenderDrawColor(mRenderer, 245, 246, 250, 255);
+	SDL_RenderClear(mRenderer);
+
+	TTF_Font* Font = TTF_OpenFont("Assets/Fonts/Codename.ttf", 64);
+	LTexture GameOver;
+	GameOver.loadFromRenderedText(mRenderer, Font, "Игра окончена", scoreColor);
+	
+
+	GameOver.render(1280 / 2 - GameOver.getWidth() / 2, 100);
+
+	std::string Score = "Итоговый счет первого игрока: " + std::to_string(GameScore);
+	ScoreImage.loadFromRenderedText(mRenderer, scoreFont, Score, scoreColor);
+	ScoreImage.render(1280 / 2 - ScoreImage.getWidth() / 2, 300);
+
+	Score = "Итоговый счет второго игрока: " + std::to_string(P2GameScore);
+	P2ScoreImage.loadFromRenderedText(mRenderer, scoreFont, Score, scoreColor);
+	P2ScoreImage.render(1280 / 2 - P2ScoreImage.getWidth() / 2, 350);
+
+	if (GameScore == P2GameScore) 
+		GameOver.loadFromRenderedText(mRenderer, Font, "Это ничья!", scoreColor);
+	else if(GameScore > P2GameScore)
+		GameOver.loadFromRenderedText(mRenderer, Font, "Победил первый игрок!", scoreColor);
+	else
+		GameOver.loadFromRenderedText(mRenderer, Font, "Победил второй игрок!", scoreColor);
+		
+	GameOver.render(1280 / 2 - GameOver.getWidth() / 2, 200);
+	SDL_RenderPresent(mRenderer);
+
+	bool Wait = true;
+
+	while (Wait && *IsRunning) {
+		while (SDL_PollEvent(&E)) {
+			if (E.type == SDL_QUIT)
+				*IsRunning = false;
+			if (E.type == SDL_KEYDOWN)
+				Wait = false;
+		}
+	}
+	GameOver.free();
+	TTF_CloseFont(Font);
 }
 
 void P2Game::DrawNextBlock()

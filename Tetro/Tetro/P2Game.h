@@ -17,7 +17,7 @@ private:
 	bool bP2inGame = true;
 
 	
-
+	void GameOver();
 
 
 	void DrawNextBlock();
